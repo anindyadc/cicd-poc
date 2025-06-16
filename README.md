@@ -1,4 +1,62 @@
 # README File
+### **📌** 
+### **Flow Diagram (CI/CD + Deployment Flow)**
+  
+#### **🧠** 
+#### **Code to Deployment Flow**
+```
+GitHub (Repo: cicd-poc)
+     |
+     | Push to "main"/"prod"
+     ↓
+GitHub Actions Workflow
+     |
+     | Runs CI: Build Docker images for
+     |  - activity
+     |  - attendance
+     ↓
+Pushes images to ECR
+     |
+     ↓
+Triggers AWS CodePipeline (or manually invokes CodeBuild)
+     |
+     ↓
+CodeBuild deploys ECS Fargate Services via CloudFormation (Stack)
+     |
+     ↓
+ECS Fargate (2 services)
+  ├── ActivityService (containerPort: 3000)
+  └── AttendanceService (containerPort: 3000)
+     |
+     ↓
+Application Load Balancer (ALB)
+  ├── Rule: `/activity/*` → ActivityService Target Group
+  └── Rule: `/attendance/*` → AttendanceService Target Group
+     |
+     ↓
+User accesses via:
+http://<ALB-DNS>/activity/  
+http://<ALB-DNS>/attendance/
+```
+---
+
+### **🔁** 
+### **Simplified Resource Flow (Infra)**
+```
+GitHub ➝ GitHub Actions ➝ ECR
+         ↓
+     CodeBuild (via CodePipeline or manually)
+         ↓
+   CloudFormation Stack:
+     ├─ VPC + Subnets
+     ├─ ALB (Listener rules for /activity and /attendance)
+     ├─ ECS Cluster
+     ├─ ECS Fargate Services x2 (1 Task each)
+     ├─ Target Groups (health check path = /activity or /attendance)
+```
+
+---
+
 ## Repository Structure
 ```
 cicd-poc/
