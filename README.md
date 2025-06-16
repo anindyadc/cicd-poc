@@ -1,18 +1,17 @@
 # README File
 ## Repository Structure
 ```
-cicd-poc-node-apps/
-├── activity/
-│   ├── Dockerfile
-│   ├── index.js
-│   └── package.json
-├── attendance/
-│   ├── Dockerfile
-│   ├── index.js
-│   └── package.json
-├── buildspec-activity.yml
-├── buildspec-attendance.yml
-├── .gitignore
+cicd-poc/
+├── .github
+│   └── workflows
+│       └── deploy.yml
+├── activity
+│   ├── app.js
+│   └── Dockerfile
+├── attendance
+│   ├── app.js
+│   └── Dockerfile
+├── buildspec.yml (optional if not using CodeBuild)
 └── README.md
 ```
 ## Architecture Overview
@@ -69,3 +68,23 @@ aws ec2 describe-instances \
   --region us-east-1 \
   --output table
 ```
+
+⸻
+
+## **🔐 Set These GitHub Secrets**
+
+In your repo, go to **Settings → Secrets and variables → Actions**, then **add these**:
+
+| **Secret Name**         | **Description**                                    |
+| ----------------------- | -------------------------------------------------- |
+| AWS_ACCESS_KEY_ID       | IAM user’s access key                              |
+| AWS_SECRET_ACCESS_KEY   | IAM user’s secret key                              |
+| AWS_REGION              | us-east-1                                          |
+| ECR_ACTIVITY_REPO       | e.g. activity-app                                  |
+| ECR_ATTENDANCE_REPO     | e.g. attendance-app                                |
+| ECS_CLUSTER_NAME        | cicd-poc-cluster                                   |
+| ACTIVITY_SERVICE_NAME   | e.g. cicd-poc-stack-ActivityService-BmDH0LSWHx1w   |
+| ATTENDANCE_SERVICE_NAME | e.g. cicd-poc-stack-AttendanceService-ZO4HoydBrwHN |
+| AWS_ACCOUNT_ID          | Your AWS account ID (12-digit)                     |
+
+⸻

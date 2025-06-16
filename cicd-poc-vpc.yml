@@ -156,7 +156,7 @@ Resources:
       Protocol: HTTP
       VpcId: !Ref VPC
       TargetType: ip
-      HealthCheckPath: /
+      HealthCheckPath: /activity
 
   AttendanceTargetGroup:
     Type: AWS::ElasticLoadBalancingV2::TargetGroup
@@ -165,7 +165,7 @@ Resources:
       Protocol: HTTP
       VpcId: !Ref VPC
       TargetType: ip
-      HealthCheckPath: /
+      HealthCheckPath: /attendance
 
   ActivityListenerRule:
     Type: AWS::ElasticLoadBalancingV2::ListenerRule
